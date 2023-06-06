@@ -13,14 +13,14 @@ def index_view():
         user_url = get_short_url(form.custom_id.data)
         if user_url.get('warning'):
             flash(user_url.get('warning'), 'warning')
-        commit_to_db = save_url_map(
+        url_map = save_url_map(
             form.original_link.data,
             user_url.get('url')
         )
-        if isinstance(commit_to_db, str):
-            flash(commit_to_db, 'warning')
+        if isinstance(url_map, str):
+            flash(url_map, 'warning')
             return render_template('index.html', form=form)
-        flash(commit_to_db.as_dict().get('short_link'), 'successfully')
+        flash(url_map.as_dict().get('short_link'), 'successfully')
         return render_template('index.html', form=form)
     else:
         if len(form.errors) > 0:
