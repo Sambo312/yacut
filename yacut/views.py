@@ -11,7 +11,6 @@ def index_view():
     form = URLForm()
     if form.validate_on_submit():
         user_url = get_short_url(form.custom_id.data)
-        print(user_url)
         if user_url.get('warning'):
             flash(user_url.get('warning'), 'warning')
         commit_to_db = save_url_map(
@@ -21,7 +20,7 @@ def index_view():
         if isinstance(commit_to_db, str):
             flash(commit_to_db, 'warning')
             return render_template('index.html', form=form)
-        flash(user_url.get('url'), 'successfully')
+        flash(commit_to_db.as_dict().get('short_link'), 'successfully')
         return render_template('index.html', form=form)
     else:
         if len(form.errors) > 0:

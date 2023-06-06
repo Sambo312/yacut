@@ -59,7 +59,7 @@
                     Ваша новая ссылка готова:
                   </h5>
                   {% for message in messages %}
-                    <a href="http://localhost/{{ message }}">
+                    <a href="{{ message }}">
                       {{ message }}
                     </a>
                   {% endfor %}
