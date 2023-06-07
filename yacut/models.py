@@ -27,15 +27,13 @@ class URLMap(db.Model):
         )
 
     def check_short_url(self, short_url):
-        if self.query.filter_by(short=short_url).first() is None:
-            return True
-        return False
+        return self.query.filter_by(short=short_url).first()
 
     def get_uniq_short(self):
         random_short_link = str(''.join(
             random.choices(
                 string.ascii_letters + string.digits, k=MAX_RANDOM_URL_LENGTH)))
-        if self.check_short_url(self, random_short_link):
+        if not self.check_short_url(self, random_short_link):
             return random_short_link
         return None
 

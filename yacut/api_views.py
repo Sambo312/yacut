@@ -25,14 +25,13 @@ def add_short_url():
         url_map = save_url_map(data.get('url'), user_url.get('url'))
         if isinstance(url_map, URLMap):
             return jsonify(url_map.as_dict()), HTTPStatus.CREATED
-        else:
-            raise InvalidAPIUsage(url_map, HTTPStatus.INTERNAL_SERVER_ERROR)
+        raise InvalidAPIUsage(url_map, HTTPStatus.INTERNAL_SERVER_ERROR)
     raise InvalidAPIUsage('Введён некорректный "url"!')
 
 
 @app.route('/api/id/<string:short_id>/', methods=('GET',))
 def get_original_url(short_id):
-    if not URLMap.check_short_url(URLMap, short_id):
+    if URLMap.check_short_url(URLMap, short_id):
         return (
             jsonify({'url': URLMap.get_original_url(URLMap, short_id)}),
             HTTPStatus.OK

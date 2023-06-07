@@ -27,7 +27,7 @@ def get_short_url(short_url=None):
     warning = None
     user_url = short_url
     if short_url:
-        if not URLMap.check_short_url(URLMap, short_url):
+        if URLMap.check_short_url(URLMap, short_url):
             short_url = create_short_url()
             warning = f'Имя {user_url} уже занято!'
     else:
@@ -41,8 +41,7 @@ def check_user_url(user_url):
         (len(user_url) <= MAX_SHORT_URL_LENGTH)
     ):
         return user_url
-    else:
-        raise InvalidAPIUsage('Указано недопустимое имя для короткой ссылки')
+    raise InvalidAPIUsage('Указано недопустимое имя для короткой ссылки')
 
 
 def check_url(url):
@@ -53,6 +52,4 @@ def check_url(url):
              "._\\+~#?&//=]*)")
     if not isinstance(url, str):
         return False
-    if(re.search(re.compile(regex), url)):
-        return True
-    return False
+    return re.search(re.compile(regex), url)
